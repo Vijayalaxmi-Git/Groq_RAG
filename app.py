@@ -3,7 +3,8 @@ import sys
 # Fix for ChromaDB sqlite3 version issue
 try:
     import pysqlite3
-    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+    sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 except ImportError:
     pass
 
@@ -69,8 +70,8 @@ def get_response(retriever, query):
 
 
 if __name__ == "__main__":
-    st.set_page_config(page_title="RAG-Utkarsh", layout="wide")
-    st.title("RAG Chatbot - Utkarsh")
+    st.set_page_config(page_title="RAG", layout="wide")
+    st.title("RAG Chatbot with GROQ and Cohere")
     st.subheader("Please upload and get embeddings first")
     query = st.text_input("Ask Question about the uploaded document")
     submit = st.button("Answer")
