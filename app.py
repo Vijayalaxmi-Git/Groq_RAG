@@ -1,3 +1,12 @@
+import sys
+
+# Fix for ChromaDB sqlite3 version issue
+try:
+    import pysqlite3
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+except ImportError:
+    pass
+
 import streamlit as st
 from dotenv import load_dotenv
 import os

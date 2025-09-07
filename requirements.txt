@@ -9,3 +9,4 @@ langchain-groq
 langchain-cohere
 python-dotenv
 langchain_chroma
+pysqlite3-binary
