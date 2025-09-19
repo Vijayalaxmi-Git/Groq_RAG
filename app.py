@@ -1,13 +1,4 @@
 import sys
-
-# Fix for ChromaDB sqlite3 version issue
-try:
-    import pysqlite3
-
-    sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
-except ImportError:
-    pass
-
 import streamlit as st
 from dotenv import load_dotenv
 import os
@@ -15,7 +6,7 @@ from langchain_cohere import CohereEmbeddings
 from langchain_groq import ChatGroq
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_chroma import Chroma
+from langchain_community.vectorstores import Chroma
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
