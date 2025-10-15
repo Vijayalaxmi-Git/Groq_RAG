@@ -24,6 +24,7 @@ embedding_model = CohereEmbeddings(model="embed-english-light-v3.0")
 # GROQ model
 llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0)
 
+
 # ------------------ PDF & VECTORSTORE HELPERS ------------------
 def load_pdf_and_split(path):
     loader = PyPDFLoader(path)
@@ -32,10 +33,12 @@ def load_pdf_and_split(path):
     splits = text_splitter.split_documents(docs)
     return splits
 
+
 def get_vectorstore(splits):
     vectorstore = Chroma.from_documents(
         splits, embedding=embedding_model, persist_directory="./chroma_db"
     )
+
 
 # ------------------ RAG & AGENT SETUP ------------------
 # Simple calculator tool
@@ -45,19 +48,21 @@ def calculator_fn(query: str):
     except Exception as e:
         return f"Error in calculation: {e}"
 
+
 tools = [
     Tool(
         name="Calculator",
         func=calculator_fn,
-        description="Use this tool to solve math problems"
+        description="Use this tool to solve math problems",
     ),
 ]
+
 
 # Function to get RAG chain using your existing llm and embeddings
 def get_rag_chain():
     db = Chroma(persist_directory="./chroma_db", embedding_function=embedding_model)
     retriever = db.as_retriever()
-    
+
     system_prompt = (
         "You are an assistant for question-answering tasks. "
         "Use the following pieces of retrieved context to answer "
@@ -76,15 +81,19 @@ def get_rag_chain():
     rag_chain = create_retrieval_chain(retriever, question_answer_chain)
     return rag_chain
 
+
 # Agent helper function
 def query_agent(user_input: str):
     # If input looks like math, use calculator tool
     if any(op in user_input for op in ["+", "-", "*", "/"]):
-        agent = initialize_agent(tools, llm, agent="zero-shot-react-description", verbose=False)
+        agent = initialize_agent(
+            tools, llm, agent="zero-shot-react-description", verbose=False
+        )
         return agent.run(user_input)
     else:
         rag_chain = get_rag_chain()
         return rag_chain.invoke({"input": user_input})["answer"]
+
 
 # ------------------ STREAMLIT UI ------------------
 if __name__ == "__main__":

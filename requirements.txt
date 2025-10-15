@@ -1,11 +1,23 @@
+# Core Dependencies
 streamlit
-groq
-cohere
-pypdf
+python-dotenv
+
+# LangChain Ecosystem
 langchain
 langchain-community
-langchain-core
-langchain-groq
-langchain-cohere
-python-dotenv
-langchain_chroma
+langchain-cohere 
+langchain-groq  
+
+# Vector Store & Embeddings
+chromadb
+cohere
+
+# PDF Processing
+pypdf
+
+# Safe Math Evaluation
+numexpr
+
+# Utilities
+tiktoken
+requests
